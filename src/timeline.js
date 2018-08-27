@@ -743,7 +743,7 @@
         // Alignment to current node
         $(this).trigger( 'align.timeline', [ 'evt-' + eventId, 'fast' ] );
         
-        if ( showEvent( eventData, metaFormat ) && eventData.callback ) {
+        if ( showEvent( eventData, metaFormat, $(this).closest(".unit-plans") ) && eventData.callback ) {
           // console.info( 'Fired "openEvent" method after event shown.' );
           Function.call( null, 'return ' + eventData.callback )();
           //var callback = Function.call( null, 'return ' + eventData.callback )();
@@ -1461,11 +1461,13 @@
 
   }
 
-  function showEvent( eventData, metaFormat ) {
-    if ( $('.timeline-event-view').length == 0 ) {
+  function showEvent( eventData, metaFormat, unit ) {
+
+      var eventView = unit.find('.timeline-event-view');
+    if ( eventView.length == 0 ) {
       return true;
     }
-    $('.timeline-event-view').empty();
+    eventView.empty();
     var tlevHeader = $('<div />', { addClass: "timeline-event-header" }),
         tlevLabel  = $('<h3 />',  { addClass: "timeline-event-label" }),
         tlevMeta   = $('<div />', { addClass: "timeline-event-meta" }),
@@ -1486,7 +1488,7 @@
       tlevBody.html( eventData.content );
     }
     
-    $('.timeline-event-view').append( tlevHeader.prop('outerHTML') + tlevBody.prop('outerHTML') + tlevFooter.prop('outerHTML') );
+    eventView.append(tlevHeader.prop('outerHTML') + tlevBody.prop('outerHTML') + tlevFooter.prop('outerHTML'));
     
     return true;
   }
